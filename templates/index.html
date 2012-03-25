@@ -7,9 +7,14 @@
 	<div id="content">
 	{% block content %}
 		{% for e in entries %}
-			{{ e.title }}<br />
+		<h1>	{{ e.title }}</h1><br />
 			{{ e.date }}<br />
 			{{ e.text }}<br />
+			{% for i in images %}
+				{% if i.belongs_to_blog == e %}
+					<a href="{{ i.image_field }}" ><img style="height:100px;width:100px" src="{{ i.image_field }}" /></a>
+				{% endif %}
+			{% endfor %}
 			<hr />
 		{% endfor %}
 
