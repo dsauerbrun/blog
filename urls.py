@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.foo.urls')),
 	(r'^login$','blog.auth.views.login_user'),
 	(r'^$','blog.views.index'),
+	(r'^home$','blog.views.index'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
