@@ -8,7 +8,9 @@
 		{% for e in entries %}
 		<h1>	{{ e.title }}</h1><br />
 			{{ e.date }}<br />
-			{{ e.text }}<br />
+			<div>
+			{{ e.displayText }}<br />
+			</div>
 			{% for i in images %}
 				{% if i.belongs_to_blog == e %}
 					<a href="{{ i.image_field }}" ><img style="height:100px;width:100px" src="{{ i.image_field }}" /></a>
