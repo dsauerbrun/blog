@@ -1,9 +1,68 @@
 <html>
 	<head>
-		<title> dans blog </title>
+		<title>Daniel Sauerbrun: Uncomfortable Since 1988 </title>
 	</head>
-<body style="background-color:black">
-	<div id="content" style="color:white">
+<style type="text/css">
+body {
+	background-color:black;
+}
+.content {
+	color:white;
+}
+.thumbnail {
+	height:100px;
+	width:100px;
+}
+.menuitem {
+	vertical-align:center;
+	color:black;
+	display:inline;
+}
+.menuseparator {
+	vertical-align:center;
+	font-size:8px;
+	color:white;
+	display:inline;
+}
+.menubar {
+	text-align:center;
+	background-color:red;
+	padding-bottom:10px;
+	padding-top:10px;
+}
+.titlebar {
+	color:yellow;
+	font-size:20px;
+}
+</style>
+<body >
+	<div class="menubar titlebar">
+		Daniel Sauerbrun: Uncomfortable Since 1988
+	</div>
+	<div class="menubar">
+		<div class="menuitem">
+			Resume
+		</div>
+		<span class="menuseparator">
+			>>
+		</span>
+		<div class="menuitem">
+			Blog
+		</div>
+		<span class="menuseparator">
+			>>
+		</span>
+		<div class="menuitem">
+			About me
+		</div>
+		<span class="menuseparator">
+			>>
+		</span>
+		<div class="menuitem">
+			Idea Pad
+		</div>
+	</div>
+	<div id="content" class="content">
 	{% block content %}
 		{% for e in entries %}
 		<h1>	{{ e.title }}</h1><br />
@@ -13,7 +72,12 @@
 			</div>
 			{% for i in images %}
 				{% if i.belongs_to_blog == e %}
-					<a href="{{ i.image_field }}" ><img style="height:100px;width:100px" src="{{ i.image_field }}" /></a>
+					<a href="{{ i.image_field }}" ><img class="thumbnail" src="{{ i.image_field }}" /></a>
+				{% endif %}
+			{% endfor %}
+			{% for i in comments %}
+				{% if i.belongs_to_blog == e %}
+					{{ e.text }}
 				{% endif %}
 			{% endfor %}
 			<hr />

@@ -11,6 +11,12 @@ class Blog(models.Model):
 		return mark_safe(self.text)
 	def __unicode__(self):
 		return u'%s' % ( self.title)	
+class Comment(models.Model):
+	text = models.TextField()
+	date = models.DateTimeField(auto_now_add=True)
+	user = models.CharField(max_length=20)
+	belongs_to_blog = models.ForeignKey('Blog')
+
 class Image(models.Model):
 	image_field = models.ImageField(upload_to='uploads/')
 	belongs_to_blog = models.ForeignKey('Blog')
