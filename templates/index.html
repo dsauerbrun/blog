@@ -75,11 +75,29 @@ body {
 					<a href="{{ i.image_field }}" ><img class="thumbnail" src="{{ i.image_field }}" /></a>
 				{% endif %}
 			{% endfor %}
-			{% for i in comments %}
-				{% if i.belongs_to_blog == e %}
-					{{ e.text }}
-				{% endif %}
-			{% endfor %}
+			<div class="addComment">
+				<form action="{% url blog.views.add_comment e.id %}" method="POST">{% csrf_token %}
+					<div id="cform">
+						name: {{ form.user }}
+						<p> {{ form.text|linebreaks }} </p>
+					</div>
+					<div id="submit"><input type="submit" value="Submit Comment"></div>
+				</form>
+			</div>
+			<div class="comments">
+				{% for i in comments %}
+					{% if i.belongs_to_blog == e %}
+						
+						<div class="comment">
+						
+						<div class="commentUser">{{ i.user }}</div>
+						<div class="commentDate">{{ i.date }}</div>
+						<div class="commentTest">{{ i.text }}</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+			
 			<hr />
 		{% endfor %}
 
