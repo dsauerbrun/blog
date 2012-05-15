@@ -64,7 +64,7 @@ body {
 	</div>
 	<div id="content" class="content">
 	{% block content %}
-		{% for e in entries %}
+		{% for e in entries reversed %}
 		<h1>	{{ e.title }}</h1><br />
 			{{ e.date }}<br />
 			<div>
@@ -85,7 +85,7 @@ body {
 				</form>
 			</div>
 			<div class="comments">
-				{% for i in comments %}
+				{% for i in comments reversed %}
 					{% if i.belongs_to_blog == e %}
 						
 						<div class="comment">
