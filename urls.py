@@ -21,5 +21,5 @@ urlpatterns = patterns('',
     url(r'^$','blog.views.index',name='blog_index'),
     url(r'^login/$','auth.views.login_user'),
     url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': '/Users/Daniel/Documents/blog/blog/uploads/'}),
+        {'document_root': './media_files/uploads/'}),
 )
