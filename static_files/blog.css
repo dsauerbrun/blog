@@ -1,0 +1,32 @@
+body {
+        background-color:black;
+}
+.content {
+        color:white;
+}
+.thumbnail {
+        height:100px;
+        width:100px;
+}
+.menuitem {
+        vertical-align:center;
+        color:black;
+        display:inline;
+}
+.menuseparator {
+        vertical-align:center;
+        font-size:8px;
+        color:white;
+        display:inline;
+}
+.menubar {
+        text-align:center;
+        background-color:red;
+        padding-bottom:10px;
+        padding-top:10px;
+}
+.titlebar {
+        color:yellow;
+        font-size:20px;
+}
+

@@ -16,7 +16,8 @@ def index(request):
 	images = Image.objects.all()
 	comments = Comment.objects.all()
 	form = CommentForm()
-	return render_to_response('index.html',locals(),RequestContext(request))
+	#return render_to_response('index.html',locals(),RequestContext(request))
+	return render_to_response('starter-template.html',locals(),RequestContext(request))
 
 class CommentForm(ModelForm):
 	class Meta:
