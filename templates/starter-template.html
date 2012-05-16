@@ -55,56 +55,57 @@
                 {% for e in entries reversed %}
                 <div class="row">
 			<div class="span12">
-				<h1>    {{ e.title }}</h1><br />
-                        	{{ e.date }}<br />
-				<div class="row">
-                        		<div class="span12">
-                        			{{ e.displayText }}<br />
-                        		</div>
-				</div>
-				<div class="row">
-					<div class="offset2 span8">
-						<div class="row">
-						{% for i in images %}
-							{% if i.belongs_to_blog == e %}
-								<div class="span2">
-									<a href="{{ i.image_field }}" ><img class="thumbnail" src="{{ i.image_field }}" /></a>
-								</div>
-							{% endif %}
-						{% endfor %}
+				<blockquote>
+					<h1>    {{ e.title }}</h1><br />
+					{{ e.date }}<br />
+					<div class="row">
+						<div class="span12">
+							<blockquote>{{ e.displayText }}</blockquote><br />
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="offset4 span8">
-						<div class="addComment">
-							<form action="{% url blog.views.add_comment e.id %}" method="POST">{% csrf_token %}
-								<div id="cform">
-									name:<br /> {{ form.user }}
-									<p class="input-xlarge"> {{ form.text }} </p>
-								</div>
-								<div id="submit"><input type="submit" value="Submit Comment"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="comments">
-				{% for i in comments reversed %}
-                                        {% if i.belongs_to_blog == e %}
-						<div class="row">
-							<div class="offset4 span8">
-								<div class="comment">
-									<div class="commentUser">{{ i.user }}</div>
-									<div class="commentDate">{{ i.date }}</div>
-									<div class="commentTest">{{ i.text }}</div>
-								</div>
+					<div class="row">
+						<div class="offset2 span8">
+							<div class="row">
+							{% for i in images %}
+								{% if i.belongs_to_blog == e %}
+									<div class="span2">
+										<a href="{{ i.image_field }}" ><img class="thumbnail" src="{{ i.image_field }}" /></a>
+									</div>
+								{% endif %}
+							{% endfor %}
 							</div>
 						</div>
-                                        {% endif %}
-                                {% endfor %}
-				</div>
-
-                        <hr />
+					</div>
+					<div class="row">
+						<div class="offset2 span8">
+							<div class="addComment">
+								<form action="{% url blog.views.add_comment e.id %}" method="POST">{% csrf_token %}
+									<div id="cform">
+										name:<br /> {{ form.user }}
+										<p class="input-xlarge"> {{ form.text }} </p>
+									</div>
+									<div id="submit"><input type="submit" value="Submit Comment"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="comments">
+					{% for i in comments reversed %}
+						{% if i.belongs_to_blog == e %}
+							<div class="row">
+								<div class="offset1 span8">
+									<div class="comment">
+										<div class="commentUser">{{ i.user }}</div>
+										<div class="commentDate">{{ i.date }}</div>
+										<div class="commentText"><blockquote>{{ i.text }}</blockquote></div>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+					</div>
+				</blockquote>
+				<hr />
 			</div>
 		</div>
                 {% endfor %}
