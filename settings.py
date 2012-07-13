@@ -1,5 +1,10 @@
 # Django settings for blog project.
 import os
+import sys
+#sys.path.append('/srv/www')
+sys.path.append('/srv/www/blog')
+sys.path.append('/srv/www/blog/media_files/')
+sys.path.append('/srv/www/blog/media_files/uploads/')
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -42,11 +47,11 @@ USE_I18N = True
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
 USE_L10N = True
-
+SITE_ROOT=os.path.dirname(os.path.realpath(__file__))
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 #MEDIA_ROOT = '/Users/Daniel/Documents/blog/blog/'
-MEDIA_ROOT = './media_files/'
+MEDIA_ROOT = os.path.join(SITE_ROOT,'media_files')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -73,7 +78,8 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/daniel/Documents/projects/blog/static_files/',
+    '/srv/www/blog/static_files/',
+
 )
 
 # List of finder classes that know how to find static files in

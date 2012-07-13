@@ -1,8 +1,10 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -22,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^$','blog.views.index',name='blog_index'),
     url(r'^login/$','auth.views.login_user'),
     url(r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': './media_files/uploads/'}),
+        {'document_root': settings.MEDIA_ROOT+'/uploads/'}),
+#        {'document_root': '/srv/www/blog/media_files/uploads/'}),
 )
 urlpatterns += staticfiles_urlpatterns()

@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
+    <link href="{{ STATIC_URL }}blog.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
     <style>
       body {
@@ -35,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="#">Daniel Sauerbrun: Uncomfortable Since 1988</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
@@ -49,13 +50,12 @@
 
     <div class="container">
 
-      <h1>Bootstrap starter template</h1>
-      <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+      <h1>Stupid musings that no one cares about</h1>
+      <p>Seriously, if you're reading this you need a hobby.</p>
 	{% block content %}
-                {% for e in entries reversed %}
+                {% for e in entries %}
                 <div class="row">
-			<div class="span12">
-				<blockquote>
+			<div class="span12 blogPost">
 					<h1>    {{ e.title }}</h1><br />
 					{{ e.date }}<br />
 					<div class="row">
@@ -77,12 +77,12 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="offset2 span8">
+						<div class="offset1 span8">
 							<div class="addComment">
 								<form action="{% url blog.views.add_comment e.id %}" method="POST">{% csrf_token %}
 									<div id="cform">
 										name:<br /> {{ form.user }}
-										<p class="input-xlarge"> {{ form.text }} </p>
+										<p class="input-xlarge"> {{ form.text }}{{ form.text.errors }} </p>
 									</div>
 									<div id="submit"><input type="submit" value="Submit Comment"></div>
 								</form>
@@ -93,7 +93,7 @@
 					{% for i in comments reversed %}
 						{% if i.belongs_to_blog == e %}
 							<div class="row">
-								<div class="offset1 span8">
+								<div class="offset1 span8 commentPost">
 									<div class="comment">
 										<div class="commentUser">{{ i.user }}</div>
 										<div class="commentDate">{{ i.date }}</div>
@@ -104,12 +104,9 @@
 						{% endif %}
 					{% endfor %}
 					</div>
-				</blockquote>
-				<hr />
 			</div>
 		</div>
-                {% endfor %}
-
+		{% endfor %}
         {% endblock %}
 
     </div> <!-- /container -->

@@ -29,4 +29,27 @@ body {
         color:yellow;
         font-size:20px;
 }
-
+.addCommentInput{
+	border: 0px;
+}
+.addComment{
+	background-color: #ddccb5;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 2px solid #897048;
+	padding: 5px 5px 5px 15px;
+}
+.commentPost{
+	background-color: #ddccb5;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 2px solid #897048;
+	padding: 5px 5px 5px 15px;
+}
+.blogPost{
+	background-color: #ddccb5;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 2px solid #897048;
+	padding: 5px 5px 5px 15px;
+}
