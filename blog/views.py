@@ -14,7 +14,7 @@ def index(request):
 		entries = Blog.objects.all()
 	else:
 		entries = Blog.objects.filter(isPrivate=False)
-	entries.order_by('date')
+	entries = entries.order_by('date')
 	for entry in entries:
 		entry.text=entry.text.replace('\n','<br />')	
 	images = Image.objects.all()
