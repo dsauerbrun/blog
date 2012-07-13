@@ -8,6 +8,8 @@ class Blog(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	text = models.TextField()
 	isPrivate= models.BooleanField(default=False)
+	class Meta(models.Model):
+		ordering = ['date']
 	def displayText(self):
 		return mark_safe(self.text)
 	def __unicode__(self):
