@@ -3,6 +3,7 @@ import os
 import sys
 #sys.path.append('/srv/www')
 sys.path.append('/srv/www/blog')
+sys.path.append('/srv/www/blog/posting')
 sys.path.append('/srv/www/blog/media_files/')
 sys.path.append('/srv/www/blog/media_files/uploads/')
 DEBUG = True
@@ -126,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'posting',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

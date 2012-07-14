@@ -1,7 +1,7 @@
 from django.contrib import admin
-from blog.models import Blog
-from blog.models import Image
-from blog.models import Comment
+from posting.models import Blog
+from posting.models import Image
+from posting.models import Comment
 
 
 class AdminBlog(admin.ModelAdmin):

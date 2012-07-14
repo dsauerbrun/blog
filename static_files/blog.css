@@ -31,6 +31,7 @@ body {
 }
 .addCommentInput{
 	border: 0px;
+	resize: none;
 }
 .addComment{
 	background-color: #ddccb5;

@@ -79,7 +79,7 @@
 					<div class="row">
 						<div class="offset1 span8">
 							<div class="addComment">
-								<form action="{% url blog.views.add_comment e.id %}" method="POST">{% csrf_token %}
+								<form action="{% url posting.views.add_comment e.id %}" method="POST">{% csrf_token %}
 									<div id="cform">
 										name:<br /> {{ form.user }}
 										<p class="input-xlarge"> {{ form.text }}{{ form.text.errors }} </p>
@@ -96,6 +96,11 @@
 								<div class="offset1 span8 commentPost">
 									<div class="comment">
 										<div class="commentUser">{{ i.user }}</div>
+										{% if user.is_staff %}
+											<form action="{% url posting.views.delete_comment i.id %}" method="POST">{% csrf_token %}
+												<input type="submit" value="delete" style="float:right" />
+											</form>
+										{% endif %}
 										<div class="commentDate">{{ i.date }}</div>
 										<div class="commentText"><blockquote>{{ i.text }}</blockquote></div>
 									</div>
