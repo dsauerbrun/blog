@@ -1,4 +1,5 @@
 from django.db import models
+from thumbs import ImageWithThumbsField
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.contrib import admin
@@ -19,7 +20,7 @@ class Comment(models.Model):
 	belongs_to_blog = models.ForeignKey('Blog')
 
 class Image(models.Model):
-	image_field = models.ImageField(upload_to='uploads/')
+	image_thumb = ImageWithThumbsField(upload_to='uploads',sizes=((150,150),))
 	belongs_to_blog = models.ForeignKey('Blog')
 	title = models.CharField(max_length=32)
 	def __unicode__(self):
