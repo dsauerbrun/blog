@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 	(r'^login$','blog.auth.views.login_user'),
 #	(r'^$','blog.views.index'),
 	(r'^home$','posting.views.index'),
+	(r'^addPayment$','moneytracker.views.addPayment'),
+	(r'&add_expense/(\d+)/$','moneytracker.views.add_expense'),
 	(r'&add_comment/(\d+)/$','posting.views.add_comment'),
 	(r'&delete_comment/(\d+)/$','posting.views.delete_comment'),
 
