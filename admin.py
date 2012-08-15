@@ -14,7 +14,6 @@ class AdminBlog(admin.ModelAdmin):
 	list_filter = ('title','date','text','isPrivate')
 	search_fields = ('title','date','text','isPrivate')
 
-
 #class testing(ModelForm):
 #	monthform = forms.CharField(max_length=100)
 #	def save(self,commit=False,force_insert=False,force_update=False):
@@ -23,8 +22,11 @@ class AdminBlog(admin.ModelAdmin):
 #	class Meta:
 #		model= Expense
 #
-#class AdminExpense(admin.ModelAdmin):
-#	form = testing
+class AdminExpense(admin.ModelAdmin):
+	list_display = ('title','date','has_category','has_payMethod','amount','recurring')
+	list_filter = ('title','date','has_category','has_payMethod','amount','recurring')
+	search_fields = ('title','date','has_category','has_payMethod','amount','recurring')
+	
 
 class generic(admin.ModelAdmin):
 	pass
@@ -32,7 +34,7 @@ class generic(admin.ModelAdmin):
 admin.site.register(Blog, AdminBlog)
 admin.site.register(Image, generic)
 admin.site.register(Comment, generic)
-admin.site.register(Expense, generic)
+admin.site.register(Expense, AdminExpense)
 admin.site.register(Month, generic)
 admin.site.register(Category, generic)
 admin.site.register(PayMethod, generic)
