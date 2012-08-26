@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% load expense_extras %}
+  <head>
+    <meta charset="utf-8">
+    <title>A Daniel Sauerbrun Production</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="{{ STATIC_URL }}blog.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/sunny/jquery-ui-1.8.22.custom.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+  </head>
+
+  <body>
+
+	{% include "navbar.html" %}
+    <div class="container">
+
+		{% block content %}
+			
+			<ul class="nav nav-tabs">
+			{% for category,valArray in separate_expenses.items %}
+				{% if forloop.counter == 1 %}
+					<li class="active">
+				{% else %}
+					<li>
+				{% endif %}
+					<a href="#{{ category|repspaces }}" data-toggle="tab">{{ category }}</a>
+				</li>
+			{% endfor %}
+			</ul>
+			<div class="tab-content">
+			{% for category,valArray in separate_expenses.items %}
+				{% if forloop.counter == 1 %}
+				<div class="tab-pane active blogPost" id="{{ category|repspaces }}">
+				{% else %}
+				<div class="tab-pane blogPost" id="{{ category|repspaces }}">
+				{% endif %}
+					{% for expense in valArray %}
+						<div class="row-fluid"><div class="span4">{{ expense.title }}</div><div class="span4">{{ expense.amount }}</div><div class="span4">{{ expense.date }}</div></div>	
+					{% endfor %}
+				</div>
+			{% endfor %}
+			</div>
+		{% endblock %}
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ STATIC_URL }}jquery-1.7.2.js"></script>
+    <script src="{{ STATIC_URL }}jquery-ui-1.8.22.custom.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <!--
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
+    -->
+    <script type="text/javascript">
+	$(document).ready(function (){
+function fnGetWidthHeight() {
+            var viewportwidth;
+            var viewportheight;
+            // The more standards compliant browsers (mozilla/netscape/opera/chrome/IE7) use window.innerWidth and window.innerHeight
+            if (typeof window.innerWidth != 'undefined') {
+                viewportwidth = window.innerWidth;
+                viewportheight = window.innerHeight;
+            }
+            // IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+            else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
+                viewportwidth = document.documentElement.clientWidth;
+                viewportheight = document.documentElement.clientHeight;
+            }
+            // older versions of IE
+            else {
+                viewportwidth = document.getElementsByTagName('body')[0].clientWidth;
+                viewportheight = document.getElementsByTagName('body')[0].clientHeight;
+            }
+            alert('Your viewport width & height is ' + viewportwidth + 'x' + viewportheight);
+        }
+	fnGetWidthHeight();
+	});
+    </script>
+  </body>
+</html>
