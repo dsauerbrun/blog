@@ -7,12 +7,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Daniel Sauerbrun: Uncomfortable Since 1988</a>
+          <a class="brand" href="/">Daniel Sauerbrun: Uncomfortable Since 1988</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li class="active"><a href="/">Home</a></li>
+		{% for name,link in menu.items %}
+			<li><a href="{{ link }}">{{ name }}</a></li>
+		{% endfor %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>

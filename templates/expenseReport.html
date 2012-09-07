@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="{{ STATIC_URL }}blog.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}expense.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/sunny/jquery-ui-1.8.22.custom.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
     <style>
@@ -49,12 +49,16 @@
 			<div class="tab-content">
 			{% for category,valArray in separate_expenses.items %}
 				{% if forloop.counter == 1 %}
-				<div class="tab-pane active blogPost" id="{{ category|repspaces }}">
+				<div class="tab-pane active box" id="{{ category|repspaces }}">
 				{% else %}
-				<div class="tab-pane blogPost" id="{{ category|repspaces }}">
+				<div class="tab-pane box" id="{{ category|repspaces }}">
 				{% endif %}
 					{% for expense in valArray %}
-						<div class="row-fluid"><div class="span4">{{ expense.title }}</div><div class="span4">{{ expense.amount }}</div><div class="span4">{{ expense.date }}</div></div>	
+						{% if forloop.counter|divisibleby:"2" %}
+							<div class="row-fluid rowEven"><div class="span4">{{ expense.title }}</div><div class="span4">{{ expense.amount }}</div><div class="span4">{{ expense.date }}</div></div>	
+						{% else %}
+							<div class="row-fluid"><div class="span4">{{ expense.title }}</div><div class="span4">{{ expense.amount }}</div><div class="span4">{{ expense.date }}</div></div>	
+						{% endif %}
 					{% endfor %}
 				</div>
 			{% endfor %}
@@ -104,7 +108,6 @@ function fnGetWidthHeight() {
             }
             alert('Your viewport width & height is ' + viewportwidth + 'x' + viewportheight);
         }
-	fnGetWidthHeight();
 	});
     </script>
   </body>

@@ -7,11 +7,13 @@ from django.contrib.auth import authenticate, login
 from moneytracker.models import Expense,Month,Category,PayMethod
 from django.forms import ModelForm,Textarea,TextInput
 import operator
+import navbarbuilder
 import json
 import os
 
 
 def addPayment(request):
+	menu = navbarbuilder.get_navbar(request)	
 	if request.user.is_staff:
 		month = Month.objects.order_by('-id')[0]
 		percentageUsed = round(100*month.total()/month.available,1)
@@ -30,8 +32,9 @@ def addPayment(request):
 		return render_to_response('auth.html',locals(),RequestContext(request))
 		
 def expenseReport(request):
+	menu = navbarbuilder.get_navbar(request)	
 	if request.user.is_staff:
-		month = Month.objects.order_by('-id')[0]
+		month = Month.objects.order_by('-id')[1]
 		categories=Category.objects.all()
 		expenses = Expense.objects.filter(month=month)
 		separate_expenses = {}

@@ -1,0 +1,26 @@
+body {
+        background-color:black;
+}
+.content {
+        color:white;
+}
+.thumbnail {
+        height:150px;
+        width:150px;
+}
+.box{
+	background-color: #ddccb5;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 2px solid #897048;
+	padding: 5px 5px 5px 15px;
+}
+.expenseRowOdd{
+	border: 1px solid white;
+}
+.expenseRowEven{
+	border: 1px solid black;
+}
+.rowEven{
+	background-color:#f5f0e9;
+}

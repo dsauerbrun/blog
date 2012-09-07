@@ -8,8 +8,10 @@ from posting.models import Image
 from posting.models import Comment
 from django.forms import ModelForm,Textarea,TextInput
 import os
+import navbarbuilder
 
 def index(request):
+	menu = navbarbuilder.get_navbar(request)	
 	if request.user.is_staff:
 		entries = Blog.objects.all()
 	else:
