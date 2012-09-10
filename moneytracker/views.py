@@ -34,9 +34,13 @@ def addPayment(request):
 def expenseReport(request):
 	menu = navbarbuilder.get_navbar(request)	
 	if request.user.is_staff:
-		month = Month.objects.order_by('-id')[1]
+		months = Month.objects.order_by('-id')
+		if request.method=='POST':
+			selectedmonth=months.get(id=request.POST['months'])
+		else:
+			selectedmonth = months[0]
 		categories=Category.objects.all()
-		expenses = Expense.objects.filter(month=month)
+		expenses = Expense.objects.filter(month=selectedmonth)
 		separate_expenses = {}
 		for category in categories:
 			separate_expenses[category.title]=expenses.filter(has_category=category)

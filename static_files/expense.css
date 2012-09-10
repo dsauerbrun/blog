@@ -24,3 +24,8 @@ body {
 .rowEven{
 	background-color:#f5f0e9;
 }
+.reportSelect{
+	margin-bottom: 0px;
+	height: 17px;
+		
+}

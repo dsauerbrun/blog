@@ -34,7 +34,6 @@
     <div class="container">
 
 		{% block content %}
-			
 			<ul class="nav nav-tabs">
 			{% for category,valArray in separate_expenses.items %}
 				{% if forloop.counter == 1 %}
@@ -45,6 +44,21 @@
 					<a href="#{{ category|repspaces }}" data-toggle="tab">{{ category }}</a>
 				</li>
 			{% endfor %}
+				<li>
+					<form action method="POST" name="changeMonth" id="changeMonth">
+						{% csrf_token %}
+						<select id="months" name="months" onchange="$('#changeMonth').submit();" class="reportSelect">
+							{% for currmonth in months %}
+								{% ifequal currmonth.id selectedmonth.id %}
+									<option value="{{ currmonth.id }}" selected>{{ currmonth }}</option>
+								{% endifequal %}
+								{% ifnotequal currmonth.id selectedmonth.id %}
+									<option value="{{ currmonth.id }}">{{ currmonth }}</option>
+								{% endifnotequal %}
+							{%endfor%}
+						</select>
+					</form>
+				</li>
 			</ul>
 			<div class="tab-content">
 			{% for category,valArray in separate_expenses.items %}
