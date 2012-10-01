@@ -26,3 +26,9 @@ class Image(models.Model):
 	def __unicode__(self):
 		return u'%s' % ( self.title)	
 
+class Location(models.Model):
+	title = models.CharField(max_length=20)
+	lattitude = models.IntegerField(null=False)
+	longitude = models.IntegerField(null=False)
+	date = models.DateTimeField(auto_now_add=True)
+	note = models.TextField(null=True) 

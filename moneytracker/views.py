@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from moneytracker.models import Expense,Month,Category,PayMethod
 from django.forms import ModelForm,Textarea,TextInput
+from django.db.models import Sum
 import operator
 import navbarbuilder
 import json
@@ -42,8 +43,10 @@ def expenseReport(request):
 		categories=Category.objects.all()
 		expenses = Expense.objects.filter(month=selectedmonth)
 		separate_expenses = {}
+		separate_totals = {}
 		for category in categories:
 			separate_expenses[category.title]=expenses.filter(has_category=category)
+			separate_totals[category.title]=expenses.filter(has_category=category).aggregate(total=Sum('amount'))['total'];
 		return render_to_response('expenseReport.html',locals(),RequestContext(request))
 	else:
 		return render_to_response('auth.html',locals(),RequestContext(request))

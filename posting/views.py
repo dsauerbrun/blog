@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from posting.models import Blog
 from posting.models import Image
 from posting.models import Comment
+from posting.models import Location
 from django.forms import ModelForm,Textarea,TextInput
 import os
 import navbarbuilder
@@ -58,3 +59,9 @@ def delete_comment(request,pkey):
 		comment=Comment.objects.get(pk=pkey)
 		comment.delete()
 	return HttpResponseRedirect(reverse("blog_index"))
+
+def add_location(request):
+	print "stuff"
+	print request
+	stuff= "pool"
+	return HttpResponse(stuff, mimetype="application/x-javascript")

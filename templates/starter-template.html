@@ -1,42 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>A Daniel Sauerbrun Production</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<!-- Le styles -->
-<link href="{{ STATIC_URL }}blog.css" rel="stylesheet">
-<link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
-<style>
-body {
-padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-}
-</style>
-<link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-
-<!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="../assets/ico/favicon.ico">
-</head>
-
-<body >
-
-
-{% include "navbar.html" %}
-<div class="container">
-<div id="map" style="height:300px">
-
-</div>
-
-<h1>Stupid musings that no one cares about</h1>
-<p>Seriously, if you're reading this you need a hobby.</p>
+{% extends "base.html" %}
 {% block content %}
+	<div id="map" style="height:300px">
+	</div>
+	<h1>Stupid musings that no one cares about</h1>
+	<p>Seriously, if you're reading this you need a hobby.</p>
 	{% for e in entries %}
 	<div class="row">
 		<div class="span12 blogPost">
@@ -96,33 +63,16 @@ padding-top: 60px; /* 60px to make the container go all the way to the bottom of
 		</div>
 	</div>
 	{% endfor %}
-{% endblock %}
 
 </div> <!-- /container -->
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ STATIC_URL }}jquery-1.7.2.js"></script>
-<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript"
       src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAicaxhV5yGvMKxT06tgOlKDgrWUhzjjGE&sensor=false">
     </script>
-<!--
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
-    -->
 <script type="text/javascript">
+	function mapError(position){
+
+	}
 	function showMap(position){
 		var latitude=position.coords.latitude;
 		var longitude=position.coords.longitude;
@@ -137,8 +87,7 @@ padding-top: 60px; /* 60px to make the container go all the way to the bottom of
 		});
 //		alert("showmap");
 	}
-	navigator.geolocation.getCurrentPosition(showMap);
+	navigator.geolocation.getCurrentPosition(showMap,mapError,{maximumAge: 50000});
 
 </script>
-  </body>
-</html>
+{% endblock %}
