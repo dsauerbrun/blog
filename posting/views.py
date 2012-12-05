@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from posting.models import Blog
 from posting.models import Image
@@ -61,7 +62,6 @@ def delete_comment(request,pkey):
 	return HttpResponseRedirect(reverse("blog_index"))
 
 def add_location(request):
-	print "stuff"
-	print request
+	#print request
 	stuff= "pool"
-	return HttpResponse(stuff, mimetype="application/x-javascript")
+	return HttpResponse(stuff, mimetype="application/javascript")

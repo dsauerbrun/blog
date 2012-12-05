@@ -4,6 +4,7 @@
 	</div>
 	<h1>Stupid musings that no one cares about</h1>
 	<p>Seriously, if you're reading this you need a hobby.</p>
+	<input type="button" value="save location" onclick="markSpot()" />
 	{% for e in entries %}
 	<div class="row">
 		<div class="span12 blogPost">
@@ -70,12 +71,14 @@
       src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAicaxhV5yGvMKxT06tgOlKDgrWUhzjjGE&sensor=false">
     </script>
 <script type="text/javascript">
+	var latitude=0;
+	var longitude=0;
 	function mapError(position){
 
 	}
 	function showMap(position){
-		var latitude=position.coords.latitude;
-		var longitude=position.coords.longitude;
+		latitude=position.coords.latitude;
+		longitude=position.coords.longitude;
 		var LatLng=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
 		var mapOptions={ center : LatLng,zoom: 16, mapTypeId: google.maps.MapTypeId.ROADMAP};
 		var map = new google.maps.Map(document.getElementById("map"),mapOptions);
@@ -88,6 +91,12 @@
 //		alert("showmap");
 	}
 	navigator.geolocation.getCurrentPosition(showMap,mapError,{maximumAge: 50000});
+	function markSpot(){
+		$.post("/add_location",{csrfmiddlewaretoken:'{{ csrf_token }}'},function(data){
+			alert('why is this not working');
+		});
+	}
+		
 
 </script>
 {% endblock %}

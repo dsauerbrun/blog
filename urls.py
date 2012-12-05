@@ -19,7 +19,7 @@ urlpatterns = patterns('',
 	(r'&add_expense/(\d+)/$','moneytracker.views.add_expense'),
 	(r'&add_comment/(\d+)/$','posting.views.add_comment'),
 	(r'&delete_comment/(\d+)/$','posting.views.delete_comment'),
-	(r'^addlocation','posting.views.add_location'),
+	(r'^add_location','posting.views.add_location'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
