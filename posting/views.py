@@ -8,8 +8,10 @@ from posting.models import Blog
 from posting.models import Image
 from posting.models import Comment
 from posting.models import Location
-from django.forms import ModelForm,Textarea,TextInput
+from django.forms import ModelForm,Textarea,TextInput,SelectMultiple,MultipleChoiceField,CheckboxSelectMultiple
+from posting.posting_forms import location_form
 import os
+import json
 import navbarbuilder
 
 def index(request):
@@ -24,7 +26,10 @@ def index(request):
 	images = Image.objects.all()
 	comments = Comment.objects.all().order_by('-date')
 	form = CommentForm()
-	#return render_to_response('index.html',locals(),RequestContext(request))
+	
+	### for map multi select
+	location_choices=location_form()
+	location_array=json.dumps(getLocationMap())
 	return render_to_response('starter-template.html',locals(),RequestContext(request))
 
 class CommentForm(ModelForm):
@@ -62,6 +67,26 @@ def delete_comment(request,pkey):
 	return HttpResponseRedirect(reverse("blog_index"))
 
 def add_location(request):
-	#print request
-	stuff= "pool"
-	return HttpResponse(stuff, mimetype="application/javascript")
+	location_array= request.POST
+	latitude=location_array["latitude"]
+	longitude=location_array["longitude"]
+	title=location_array["title"]
+	note=location_array["note"]
+	location= Location()
+	if latitude!=0 and longitude!=0 and title!='':
+		location.title=title
+		location.latitude=latitude
+		location.longitude=longitude
+		location.note=note	
+		location.save()
+	stuff= [location.id,str(location.date.date().strftime("%m/%d/%y"))]
+	return HttpResponse(json.dumps(stuff), mimetype="application/json")
+
+def getLocationMap():
+	locations=Location.objects.all().order_by('-date')
+	location_array={}
+	for location in locations:
+		latitude=str(location.latitude)
+		longitude=str(location.longitude)
+		location_array[location.id]=[latitude,longitude,location.note,location.title,str(location.date.date().strftime("%m/%d/%y"))]
+	return location_array

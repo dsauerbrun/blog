@@ -54,3 +54,10 @@ body {
 	border: 2px solid #897048;
 	padding: 5px 5px 5px 15px;
 }
+
+
+/* fix for jquery ui bug with map */
+#map img {
+ max-width: none;
+}
+

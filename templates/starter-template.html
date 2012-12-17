@@ -1,10 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
-	<div id="map" style="height:300px">
+	<div id="locationModal" class="modal hide fade">
+		<div class="modal-header">
+			Create New Location
+		</div>
+		<div class="modal-body">
+			<div class="alert alert-block alert-error fade in">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				<h4 class="alert-heading"> missing info</h4>
+				<p>Make sure you fill in the title</p>
+			</div>
+			<div class="form-horizontal">
+				<div clas="control-group">
+					<label class="control-label" for="locationTitle">Title</label>
+					<div class="controls">
+						<input type="input" id="locationTitle" placeholder="example: Santa Barbara"/><button type class="btn" onclick="fillTitle($('#locationTitle'))" value="Auto-fill"> autofill</button>
+					</div>
+				</div>
+				<div clas="control-group">
+					<label class="control-label" for="locationNote">Note</label>
+					<div class="controls">
+						<textarea id="locationNote" placeholder="example: Santa Barbara" rows="3"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" onclick="markSpot(latitude,longitude,$('#locationTitle').val(),$('#locationNote').val());" > submit</button>
+			<button data-dismiss="modal" class="btn">Close</button>
+		</div>
+	</div>
+	<div class="row">
+		<div id="map" class="span9" style="height:300px">
+
+		</div>
+		<div class="span3">
+			{{ location_choices.location_list }}
+			<div class="btn-toolbar">
+				<div class="btn-group">
+					<a onclick="nextLocation()" class="btn"><i class="icon-step-backward"></i></a>
+					<a href="#locationModal" role="button" class="btn" data-toggle="modal">Set new location</a>
+					<a onclick="prevLocation()" class="btn"><i class="icon-step-forward"></i></a>
+				</div>
+			</div>
+
+		</div>
 	</div>
 	<h1>Stupid musings that no one cares about</h1>
 	<p>Seriously, if you're reading this you need a hobby.</p>
-	<input type="button" value="save location" onclick="markSpot()" />
 	{% for e in entries %}
 	<div class="row">
 		<div class="span12 blogPost">
@@ -71,30 +114,138 @@
       src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAicaxhV5yGvMKxT06tgOlKDgrWUhzjjGE&sensor=false">
     </script>
 <script type="text/javascript">
+	$(document).ready(function(){
+		$('#id_location_list').change(function(){
+			changeLocation($(this).val());
+		});
+	
+	});
+</script>
+<script type="text/javascript">
+	// For CSRF token on POST requests
+	$.ajaxSetup({ 
+	     beforeSend: function(xhr, settings) {
+		 function getCookie(name) {
+		     var cookieValue = null;
+		     if (document.cookie && document.cookie != '') {
+			 var cookies = document.cookie.split(';');
+			 for (var i = 0; i < cookies.length; i++) {
+			     var cookie = jQuery.trim(cookies[i]);
+			     // Does this cookie string begin with the name we want?
+			 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+			     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+			     break;
+			 }
+		     }
+		 }
+		 return cookieValue;
+		 }
+		 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+		     // Only send the token to relative URLs i.e. locally.
+		     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+		 }
+	     } 
+	});
+
+
+
 	var latitude=0;
 	var longitude=0;
+	var map;
+	var markerList= new Array();
+	console.log("{{location_array|escapejs}}");
+	var location_array= $.parseJSON("{{ location_array|escapejs }}");
+	function addMarker(markerInfoArray,key){
+		var LatLng=new google.maps.LatLng(markerInfoArray[0],markerInfoArray[1]);
+		var marker= new google.maps.Marker({
+			position:LatLng,
+			map: map,
+			title:markerInfoArray[3]
+		});
+		var infowindow= new google.maps.InfoWindow({
+			content: '<div ><b>'+markerInfoArray[3]+'</b>--'+markerInfoArray[4]+'<br />'+markerInfoArray[2]+'</div>'
+		});
+		google.maps.event.addListener(marker,'click',function(){
+			infowindow.open(map,marker);
+		});
+		markerList[key]=marker;
+
+	}
+	function setMarkers(locationMap){
+		jQuery.each(locationMap, function(key,value){
+			addMarker(this,key);
+		});
+	}
 	function mapError(position){
 
 	}
 	function showMap(position){
 		latitude=position.coords.latitude;
 		longitude=position.coords.longitude;
-		var LatLng=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-		var mapOptions={ center : LatLng,zoom: 16, mapTypeId: google.maps.MapTypeId.ROADMAP};
-		var map = new google.maps.Map(document.getElementById("map"),mapOptions);
+		var LatLngIt=new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		var mapOptions={ center : LatLngIt,zoom: 16, mapTypeId: google.maps.MapTypeId.ROADMAP};
+		console.log(LatLngIt);
+		map = new google.maps.Map(document.getElementById("map"),mapOptions);
 		
-		var currentMarker= new google.maps.Marker({
-			position:LatLng,
-			map: map,
-			title:"My last spot"
-		});
-//		alert("showmap");
+		setMarkers(location_array);
 	}
 	navigator.geolocation.getCurrentPosition(showMap,mapError,{maximumAge: 50000});
-	function markSpot(){
-		$.post("/add_location",{csrfmiddlewaretoken:'{{ csrf_token }}'},function(data){
-			alert('why is this not working');
+	//goes back in time
+	function prevLocation(){
+		if($('option:selected', '#id_location_list').next('option').length!=0){
+			$('option:selected', '#id_location_list').removeAttr('selected').next('option').attr('selected', 'selected');
+			changeLocation($('#id_location_list').val());
+		}
+	}
+	//goes forward in time
+	function nextLocation(){
+		if($('option:selected', '#id_location_list').prev('option').length!=0){
+			$('option:selected', '#id_location_list').removeAttr('selected').prev('option').attr('selected', 'selected');
+			changeLocation($('#id_location_list').val());
+		}
+	}
+	function changeLocation(locationId){
+		map.setCenter(markerList[locationId].getPosition());
+	}
+
+
+	var geocoder=new google.maps.Geocoder();
+	function fillTitle(inputObject){
+		var latlng=new google.maps.LatLng(latitude,longitude);
+		geocoder.geocode({'latLng':latlng},function(results,status){
+			if(status == google.maps.GeocoderStatus.OK){
+				if(results[0]){
+					for(var i=0; i< results[0].address_components.length;i++){
+						var currentAddress=results[0].address_components[i];
+						for(var j=0;j<currentAddress.types.length;j++){
+							var currentType=currentAddress.types[j];
+							if(currentType=='locality'){
+								inputObject.val(currentAddress.long_name);
+							}
+						}
+					}
+				}
+			}
+			else{
+				alert("Geocoder Failed due to: "+ status);
+			}
 		});
+	}
+	function markSpot(latitude,longitude,title,note){
+		if(latitude=='' || longitude=='' || title==''){
+			alert('make sure you have a title');
+		}
+		else{
+			$.post("{% url posting.views.add_location %}",{latitude:latitude,longitude:longitude,title:title,note:note},function(data){
+				var retData= $.parseJSON(data);
+				//add spot to the select and add the marker to the marker array
+				var markerTemp=[latitude,longitude,note,title,data[1]];
+				addMarker(markerTemp,data[0]);
+				$('#id_location_list').prepend('<option value="'+data[0]+'">'+title+'</option');
+				console.log(markerTemp);
+				
+			});
+		}
 	}
 		
 

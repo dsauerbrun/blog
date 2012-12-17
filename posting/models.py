@@ -28,7 +28,7 @@ class Image(models.Model):
 
 class Location(models.Model):
 	title = models.CharField(max_length=20)
-	lattitude = models.IntegerField(null=False)
-	longitude = models.IntegerField(null=False)
+	latitude = models.DecimalField(max_digits=11,decimal_places=6,null=False)
+	longitude = models.DecimalField(max_digits=11,decimal_places=6,null=False)
 	date = models.DateTimeField(auto_now_add=True)
 	note = models.TextField(null=True) 
